@@ -1,0 +1,29 @@
+{
+  "name": "code-editor-api",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Server for web base code-editor",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Waleed-abdullah/code-editor-API.git"
+  },
+  "author": "Waleed",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Waleed-abdullah/code-editor-API/issues"
+  },
+  "homepage": "https://github.com/Waleed-abdullah/code-editor-API#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
