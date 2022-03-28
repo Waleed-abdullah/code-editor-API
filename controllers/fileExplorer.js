@@ -1,6 +1,7 @@
 import { Router } from "express";
 import path from 'path';
 import fs from 'fs';
+import { getFiles } from "../utils/getFiles.js";
 
 const __dirname = path.resolve();
 const pfp = path.join(__dirname + '/public/')
@@ -80,36 +81,37 @@ fileExplorerRouter.post('/deleteFile', (req, res) => {
 })
 
 fileExplorerRouter.get('/getFiles', (req, res) => {
-    const getAllFiles = function(dirPath, arrayOfFiles) {
-        const files = fs.readdirSync(dirPath)
+    // const getAllFiles = function(dirPath, arrayOfFiles) {
+    //     const files = fs.readdirSync(dirPath)
       
-        arrayOfFiles = arrayOfFiles || []
+    //     arrayOfFiles = arrayOfFiles || []
       
-        files.forEach(function(file) {
-          if (fs.statSync(dirPath + "/" + file).isDirectory()) {
-            arrayOfFiles = getAllFiles(dirPath + "/" + file, arrayOfFiles)
-          } else {
-            arrayOfFiles.push(path.join(dirPath, "/", file))
-          }
-        })
+    //     files.forEach(function(file) {
+    //       if (fs.statSync(dirPath + "/" + file).isDirectory()) {
+    //         arrayOfFiles = getAllFiles(dirPath + "/" + file, arrayOfFiles)
+    //       } else {
+    //         arrayOfFiles.push(path.join(dirPath, "/", file))
+    //       }
+    //     })
       
-        return arrayOfFiles
-    }
+    //     return arrayOfFiles
+    // }
 
-    //const path = pfp + req.body.userID + '/' + req.body.currProjectName
-    const result = getAllFiles('./public/abd/TestDir', [])
+    // //const path = pfp + req.body.userID + '/' + req.body.currProjectName
+    // const result = getAllFiles('./public/abd/TestDir', [])
 
-    const newArray = []
+    // const newArray = []
 
-    for (let j = 0; j < result.length; ++j){
-        newArray.push([])
-        const file = result[j].split('\\')
-        for (let i = 3; i < file.length; ++i){
-            newArray[j].push(file[i])
-        }
-    }
-    console.log(newArray)
+    // for (let j = 0; j < result.length; ++j){
+    //     newArray.push([])
+    //     const file = result[j].split('\\')
+    //     for (let i = 3; i < file.length; ++i){
+    //         newArray[j].push(file[i])
+    //     }
+    // }
+    // console.log(newArray)
 
+    const result = getFiles('./public/abd/TestDir')
     return res.status(200).json('Files Gottem')
 })
 
