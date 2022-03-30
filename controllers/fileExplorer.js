@@ -80,39 +80,12 @@ fileExplorerRouter.post('/deleteFile', (req, res) => {
     })
 })
 
-fileExplorerRouter.get('/getFiles', (req, res) => {
-    // const getAllFiles = function(dirPath, arrayOfFiles) {
-    //     const files = fs.readdirSync(dirPath)
-      
-    //     arrayOfFiles = arrayOfFiles || []
-      
-    //     files.forEach(function(file) {
-    //       if (fs.statSync(dirPath + "/" + file).isDirectory()) {
-    //         arrayOfFiles = getAllFiles(dirPath + "/" + file, arrayOfFiles)
-    //       } else {
-    //         arrayOfFiles.push(path.join(dirPath, "/", file))
-    //       }
-    //     })
-      
-    //     return arrayOfFiles
-    // }
-
-    // //const path = pfp + req.body.userID + '/' + req.body.currProjectName
-    // const result = getAllFiles('./public/abd/TestDir', [])
-
-    // const newArray = []
-
-    // for (let j = 0; j < result.length; ++j){
-    //     newArray.push([])
-    //     const file = result[j].split('\\')
-    //     for (let i = 3; i < file.length; ++i){
-    //         newArray[j].push(file[i])
-    //     }
-    // }
-    // console.log(newArray)
-
-    const result = getFiles('./public/abd/TestDir')
-    return res.status(200).json('Files Gottem')
+fileExplorerRouter.get('/getFiles/:userID/:currProjectDir', (req, res) => {
+    const userID = req.params.userID
+    const currProjectDir = req.params.currProjectDir
+    const currPath = './public/' + userID + '/' + currProjectDir
+    const result = getFiles(currPath)
+    return res.status(200).json({result})
 })
 
 export {fileExplorerRouter}

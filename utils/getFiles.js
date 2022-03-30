@@ -46,9 +46,6 @@ const getFiles = (pathToDir) => {
             rootFiles.push(newArray[i][0])
         }
     }
-
-    console.log(seenFolder)
-    console.log(rootFiles)
     return {seenFolder, rootFiles}
 }
 
