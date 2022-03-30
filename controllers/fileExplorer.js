@@ -19,6 +19,18 @@ fileExplorerRouter.post('/createUserFolder', (req, res) => {
     })
 })
 
+fileExplorerRouter.post('/createFolder', (req, res) => {
+    const folderPath = pfp + req.body.userID + '/' + req.body.currProjectName + req.body.insidePath + '/' + req.body.folderName
+    console.log(folderPath)
+    fs.mkdir(folderPath, (err) => {
+        if (err){
+            if (err.code === 'EEXIST'){return res.status(200).json('Folder Already Exists')}
+            else {return res.status(404).json('Unsuccessful')}
+        }
+        return res.status(200).json('New Folder Created')
+    })
+})
+
 fileExplorerRouter.post('/createProjectDir', (req, res) => {
     const dirPath = pfp + req.body.userID + '/' + req.body.dirName
     
