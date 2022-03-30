@@ -14,6 +14,7 @@ const getFiles = (pathToDir) => {
             arrayOfFiles.push(path.join(dirPath, "/", file))
           }
         })
+        if (files.length === 0){arrayOfFiles.push(path.join(dirPath + '?'))}
       
         return arrayOfFiles
     }
@@ -33,7 +34,7 @@ const getFiles = (pathToDir) => {
     const seenFolder = {}
     const rootFiles = []
     for (let i = 0; i < newArray.length; ++i){
-        if (newArray[i].length != 1){
+        if (newArray[i].length != 1 && newArray[i][0][newArray[i][0].length-1] !== '?'){
             if (seenFolder[newArray[i][0]]){
                 seenFolder[newArray[i][0]].push(newArray[i])
             }
@@ -43,7 +44,14 @@ const getFiles = (pathToDir) => {
             }
         }
         else{
-            rootFiles.push(newArray[i][0])
+            const emptyFolder = newArray[i][0][newArray[i][0].length-1] === '?' ? true : false
+            if (emptyFolder){
+              seenFolder[newArray[i][0].split('?')[0]] = []
+              seenFolder[newArray[i][0].split('?')[0]].push(newArray[i])
+            }
+            else{
+              rootFiles.push(newArray[i][0])
+            }
         }
     }
     return {seenFolder, rootFiles}
