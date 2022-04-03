@@ -48,7 +48,7 @@ fileExplorerRouter.post('/createProjectDir', (req, res) => {
 })
 
 fileExplorerRouter.post('/createFile', (req, res) => {
-    const filePath = pfp + req.body.userID + '/' + req.body.currProjectName + '/' + req.body.fileName;
+    const filePath = pfp + req.body.userID + '/' + req.body.currProjectName + req.body.insidePath + '/' + req.body.fileName
 
     fs.open(filePath, 'w', (err, file) => {
         if (err) {
