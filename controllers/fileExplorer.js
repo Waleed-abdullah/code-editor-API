@@ -83,13 +83,23 @@ fileExplorerRouter.post('/renameFile', (req, res) => {
 })
 
 fileExplorerRouter.post('/deleteFile', (req, res) => {
-    const path = pfp + req.body.userID + '/' + req.body.currProjectName + '/' + req.body.fileName
+    const filePath = pfp + req.body.userID + '/' + req.body.currProjectName + '/' + req.body.insidePath
 
-    fs.unlink(path, (err) => {
+    fs.unlink(filePath, (err) => {
         if (err) throw err
-        console.log('Deleted')
-        return res.status(200).json('File Deleted')    
+        console.log('Deleted File')
+        return res.status(200).json('File Deleted')
     })
+})
+
+fileExplorerRouter.post('/deleteFolder', (req, res) => {
+    const folderPath = pfp + req.body.userID + '/' + req.body.currProjectName + '/' + req.body.insidePath
+
+    fs.rm(folderPath, { recursive: true, force: true }, (err) => {
+        if (err) {throw err}
+        console.log('Deleted Folder')
+        return res.status(200).json('Folder Deleted')
+    });
 })
 
 fileExplorerRouter.get('/getFiles/:userID/:currProjectDir', (req, res) => {
