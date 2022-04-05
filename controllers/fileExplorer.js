@@ -73,8 +73,16 @@ fileExplorerRouter.post('/updateCode', (req, res) => {
 })
 
 fileExplorerRouter.post('/renameFile', (req, res) => {
-    const oldPath = pfp + req.body.userID + '/' + req.body.currProjectName + '/' + req.body.currFileName
-    const newPath = pfp + req.body.userID + '/' + req.body.currProjectName + '/' + req.body.newFileName
+    const oldPath = pfp + req.body.userID + '/' + req.body.currProjectName + '/' + req.body.insidePath
+    
+    const array = req.body.insidePath.split('/')
+    let newInsidePath = ''
+    for (let i=1; i < array.length-1; ++i){
+        newInsidePath += '/' + array[i]
+    }
+    newInsidePath += '/' + req.body.newFileName
+
+    const newPath = pfp + req.body.userID + '/' + req.body.currProjectName + '/' + newInsidePath
 
     fs.rename(oldPath, newPath, err => {
         if (err) throw err
