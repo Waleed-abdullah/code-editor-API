@@ -118,4 +118,16 @@ fileExplorerRouter.get('/getFiles/:userID/:currProjectDir', (req, res) => {
     return res.status(200).json({result})
 })
 
+fileExplorerRouter.get('/getContent', (req, res) => {
+    const userID = req.query.userID
+    const currProjectDir = req.query.currProjectDir
+    const insidePath = req.query.insidePath
+    const filePath = pfp + userID + '/' + currProjectDir + '/' + insidePath
+
+    fs.readFile(filePath, 'utf8' , (err, data) => {
+        if (err) {throw err}
+        return res.status(200).json({data})
+    })  
+})
+
 export {fileExplorerRouter}
