@@ -1,6 +1,8 @@
 import { Router } from "express";
 import path from 'path';
 import fs from 'fs';
+import fse from 'fs-extra'
+import multer from 'multer';
 import { getFiles } from "../utils/getFiles.js";
 
 const __dirname = path.resolve();
@@ -73,7 +75,10 @@ fileExplorerRouter.post('/updateCode', (req, res) => {
 })
 
 fileExplorerRouter.post('/renameFile', (req, res) => {
-    const oldPath = pfp + req.body.userID + '/' + req.body.currProjectName + '/' + req.body.insidePath
+    let oldPath;
+    let newPath;
+
+    oldPath = pfp + req.body.userID + '/' + req.body.currProjectName + '/' + req.body.insidePath
     
     const array = req.body.insidePath.split('/')
     let newInsidePath = ''
@@ -82,8 +87,9 @@ fileExplorerRouter.post('/renameFile', (req, res) => {
     }
     newInsidePath += '/' + req.body.newFileName
 
-    const newPath = pfp + req.body.userID + '/' + req.body.currProjectName + '/' + newInsidePath
-
+    newPath = pfp + req.body.userID + '/' + req.body.currProjectName + '/' + newInsidePath
+    
+    
     fs.rename(oldPath, newPath, err => {
         if (err) throw err
         return res.status(200).json('File Renamed')
@@ -129,5 +135,39 @@ fileExplorerRouter.get('/getContent', (req, res) => {
         return res.status(200).json({data})
     })  
 })
+
+let storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './public/tmp/');
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname)
+    }
+})
+
+let upload = multer({
+    storage: storage,
+})
+
+fileExplorerRouter.post('/uploadAsset', upload.single('file'), (req, res) => {
+    if (!req.file){
+        res.status(200).json('No File Uploaded')
+    } 
+    else{
+        res.status(200).json('File Uploaded')
+        console.log('Done')
+    }
+})
+
+fileExplorerRouter.post('/move', (req, res) => {
+    const oldPath = pfp + 'tmp' + '/' + req.body.fileName
+    const newPath = pfp + req.body.userID + '/' + req.body.currProjectName + '/' + req.body.insidePath + '/' + req.body.fileName
+    
+    fse.move(oldPath, newPath, (err) => {
+        if (err) throw err;
+        res.status(200).json('Moved')
+    });  
+})
+
 
 export {fileExplorerRouter}
