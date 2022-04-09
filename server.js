@@ -9,7 +9,7 @@ const __dirname = path.resolve()
 const pfp = __dirname + '/public'
 const app = express();
 
-app.use(json());
+app.use(json({limit: '50mb'}));
 app.use(cors());
 
 app.use('/get', express.static(pfp));
