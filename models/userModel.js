@@ -4,9 +4,13 @@ import uniqueValidator from 'mongoose-unique-validator'
 const userSchema = new mongoose.Schema({
   email: {
       type: String,
-      unique: true
+      unique: true,
+      required: true,
   },
-  name: String,
+  name: {
+    type: String,
+    required: true,
+  },
   projects: [
       {
           type: String,
