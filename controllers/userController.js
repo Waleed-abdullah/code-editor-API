@@ -8,7 +8,7 @@ userRouter.post('/createUser', async (req, res) => {
 
     if (!userFound.length){
         const user = new User({
-            name: req.body.user.name,
+            name: req.body.user.name.replaceAll(' ', '-'),
             email: req.body.user.email,
             projects : [] // TODO: change this
         })
