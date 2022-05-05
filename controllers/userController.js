@@ -10,16 +10,15 @@ userRouter.post('/createUser', async (req, res) => {
         const user = new User({
             name: req.body.user.name.replaceAll(' ', '-'),
             email: req.body.user.email,
+            photoURL: req.body.user.photoURL,
             projects : [] // TODO: change this
         })
 
         const savedUser = await user.save()
-        console.log(savedUser)
-        return res.status(200).json(savedUser)
+        return res.status(200).json({savedUser: savedUser, userExisted: false})
     }
     else{
-        console.log(userFound[0])
-        return res.status(200).json(userFound[0])
+        return res.status(200).json({savedUser: userFound[0], userExisted: true})
     }
 })
 
