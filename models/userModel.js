@@ -17,11 +17,15 @@ const userSchema = new mongoose.Schema({
     type: String,
   },
   
-  projects: [
-      {
-          type: String,
-      }
-  ]
+  projects: [{
+    name: {
+      type: String,
+    },
+    description: {
+      type: String,
+    }
+  }]
+
 })
 
 userSchema.plugin(uniqueValidator)
@@ -29,6 +33,10 @@ userSchema.plugin(uniqueValidator)
 userSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
+    for (let i = 0; i < returnedObject.projects.length; ++i){
+      returnedObject.projects[i].id = returnedObject.projects[i]._id.toString()
+      delete returnedObject.projects[i]._id
+    }
     delete returnedObject._id
     delete returnedObject.__v
   }

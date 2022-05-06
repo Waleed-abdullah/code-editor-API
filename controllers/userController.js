@@ -22,5 +22,29 @@ userRouter.post('/createUser', async (req, res) => {
     }
 })
 
+userRouter.post('/createProject', async (req, res) => {
+    // get user data
+    const userInfo = await User.findById({_id: req.body.id})
+    // seperate projects lists
+    const projectLists = userInfo.projects
+
+    // check whether name of project already exists
+    let n = req.body.projectInfo.name
+    let found = projectLists.find((p) => p.name === n)
+    let c = 0
+    while(found) {
+        n = req.body.projectInfo.name + '(' + c.toString() + ')'
+        c++
+        found = projectLists.find((p) => p.name === n)
+    }
+
+    // push new project to projects list
+    projectLists.push({name: n, description: req.body.projectInfo.description})
+    
+    // update in database
+    const updatedUser = await User.findByIdAndUpdate({_id: req.body.id}, {projects: projectLists}, {new: true})
+    return res.status(200).json({updatedUser: updatedUser, dirName: n})
+})
+
 
 export {userRouter}
