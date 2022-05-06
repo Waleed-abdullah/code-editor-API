@@ -67,7 +67,6 @@ fileExplorerRouter.post('/createFile', (req, res) => {
 
 fileExplorerRouter.post('/updateCode', (req, res) => {
     const filePath = pfp + req.body.userID + '/' + req.body.currProjectName + '/' + req.body.insidePath
-    console.log('Inside updateCode')
 
     fs.writeFile(filePath, req.body.code,  (err) => {
         if (err) throw err;
