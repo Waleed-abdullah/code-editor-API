@@ -39,7 +39,7 @@ userRouter.post('/createProject', async (req, res) => {
     }
 
     // push new project to projects list
-    projectLists.push({name: n, description: req.body.projectInfo.description})
+    projectLists.push({name: n, description: req.body.projectInfo.description, creationData: new Date()})
     
     // update in database
     const updatedUser = await User.findByIdAndUpdate({_id: req.body.id}, {projects: projectLists}, {new: true})
