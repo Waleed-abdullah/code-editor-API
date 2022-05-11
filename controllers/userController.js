@@ -11,7 +11,8 @@ userRouter.post('/createUser', async (req, res) => {
             name: req.body.user.name.replaceAll(' ', '-'),
             email: req.body.user.email,
             photoURL: req.body.user.photoURL,
-            projects : [] // TODO: change this
+            projects : [], // TODO: change this
+            snippets: []
         })
 
         const savedUser = await user.save()
@@ -25,24 +26,26 @@ userRouter.post('/createUser', async (req, res) => {
 userRouter.post('/createProject', async (req, res) => {
     // get user data
     const userInfo = await User.findById({_id: req.body.id})
-    // seperate projects lists
-    const projectLists = userInfo.projects
-
+    // seperate lists
+    const projectLists = req.body.projectInfo.type === 'projects' ? userInfo.projects : userInfo.snippets
     // check whether name of project already exists
-    let n = req.body.projectInfo.name
+    let n = req.body.projectInfo.name.replaceAll(' ', '-')
     let found = projectLists.find((p) => p.name === n)
     let c = 0
     while(found) {
-        n = req.body.projectInfo.name + '(' + c.toString() + ')'
+        n = req.body.projectInfo.name.replaceAll(' ', '-') + '(' + c.toString() + ')'
         c++
         found = projectLists.find((p) => p.name === n)
     }
 
     // push new project to projects list
-    projectLists.push({name: n, description: req.body.projectInfo.description, creationData: new Date()})
+    projectLists.push({name: n, description: req.body.projectInfo.description, creationDate: new Date()})
+    console.log(projectLists)
+
     
-    // update in database
-    const updatedUser = await User.findByIdAndUpdate({_id: req.body.id}, {projects: projectLists}, {new: true})
+    // update in database)
+    const updatedUser = req.body.projectInfo.type === 'projects' ? await User.findByIdAndUpdate({_id: req.body.id}, {projects: projectLists}, {new: true}) : 
+        await User.findByIdAndUpdate({_id: req.body.id}, {snippets: projectLists}, {new: true})
     return res.status(200).json({updatedUser: updatedUser, dirName: n})
 })
 
