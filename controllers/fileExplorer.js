@@ -115,6 +115,15 @@ fileExplorerRouter.post('/updateCode', (req, res) => {
     });
 })
 
+fileExplorerRouter.post('/updateSnippet', (req, res) => {
+    const filePath = pfp + req.body.userID + '/snippets/' + req.body.currentSnippetName + '/' + 'Snippet.' + req.body.language
+
+    fs.writeFile(filePath, req.body.code, (err) => {
+        if(err) throw err
+        return res.status(200).json('Updated')
+    })
+})
+
 fileExplorerRouter.post('/renameFile', (req, res) => {
     let oldPath;
     let newPath;
@@ -175,6 +184,18 @@ fileExplorerRouter.get('/getContent', (req, res) => {
         if (err) {throw err}
         return res.status(200).json({data})
     })  
+})
+
+fileExplorerRouter.get('/getSnippetContent', (req, res) => {
+    const userID = req.query.userID
+    const currentSnippetName = req.query.currentSnippetName
+    const language = req.query.language
+    const filePath = pfp + userID + '/snippets/' + currentSnippetName + '/' + 'Snippet.' + language;
+    
+    fs.readFile(filePath, 'utf-8', (err, data) => {
+        if (err) {throw err}
+        return res.status(200).json({data})
+    })
 })
 
 let storage = multer.diskStorage({
