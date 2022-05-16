@@ -19,7 +19,7 @@ const getLang = (language) => {
             break
         }        
         case 'cs': {
-            lang = 'cs'
+            lang = 'csharp'
             break
         }        
         case 'd': {
