@@ -39,9 +39,11 @@ userRouter.post('/createProject', async (req, res) => {
     }
 
     // push new project to projects list
-    projectLists.push({name: n, description: req.body.projectInfo.description, creationDate: new Date()})
+    if (req.body.projectInfo.type === 'projects'){projectLists.push({name: n, description: req.body.projectInfo.description, creationDate: new Date()})}
+    else {projectLists.push({name: n, description: req.body.projectInfo.description, creationDate: new Date(), language: req.body.projectInfo.language})}
     
-    // update in database)
+    
+    // update in database
     const updatedUser = req.body.projectInfo.type === 'projects' ? await User.findByIdAndUpdate({_id: req.body.id}, {projects: projectLists}, {new: true}) : 
         await User.findByIdAndUpdate({_id: req.body.id}, {snippets: projectLists}, {new: true})
     return res.status(200).json({updatedUser: updatedUser, dirName: n})
