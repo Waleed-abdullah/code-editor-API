@@ -223,7 +223,7 @@ fileExplorerRouter.post('/uploadAsset', upload.single('file'), (req, res) => {
 
 fileExplorerRouter.post('/move', (req, res) => {
     const oldPath = pfp + 'tmp' + '/' + req.body.fileName
-    const newPath = pfp + req.body.userID + '/' + req.body.currProjectName + '/' + req.body.insidePath + '/' + req.body.fileName
+    const newPath = pfp + req.body.userID + '/projects/' + req.body.currProjectName + '/' + req.body.insidePath + '/' + req.body.fileName
     
     fse.move(oldPath, newPath, (err) => {
         if (err) throw err;

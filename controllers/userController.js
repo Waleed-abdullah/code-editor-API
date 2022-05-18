@@ -49,5 +49,16 @@ userRouter.post('/createProject', async (req, res) => {
     return res.status(200).json({updatedUser: updatedUser, dirName: n})
 })
 
+userRouter.get('/getUsers', async (req, res) => {
+    let usersFound = await User.find({})
+    usersFound = usersFound.filter(user => user.name.includes(req.query.query))
+    return res.status(200).json({usersFound})
+})
+
+userRouter.get('/getUser', async (req, res) => {
+    const userFound = await User.findById({_id: req.query.id})
+    return res.status(200).json({userFound})
+})
+
 
 export {userRouter}
