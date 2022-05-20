@@ -5,6 +5,7 @@ import path from 'path';
 import mongoose from 'mongoose';
 import {fileExplorerRouter} from './controllers/fileExplorer.js'
 import {userRouter} from './controllers/userController.js'
+import { codeRouter } from './controllers/codeRouter.js';
 
 // connecting to mongoose
 mongoose.connect(process.env.MONGODB_URI)
@@ -26,6 +27,7 @@ app.use('/get', express.static(pfp));
 
 app.use('/user', userRouter)
 app.use('/fileExplorer', fileExplorerRouter)
+app.use('/code', codeRouter)
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Listening at localhost:${port}`));

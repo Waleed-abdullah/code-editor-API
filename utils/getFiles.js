@@ -26,7 +26,7 @@ const getFiles = (pathToDir) => {
     for (let j = 0; j < result.length; ++j){
         newArray.push([])
         const file = result[j].split('\\')
-        for (let i = 3; i < file.length; ++i){
+        for (let i = 4; i < file.length; ++i){ // initializing i is important
             newArray[j].push(file[i])
         }
     }
