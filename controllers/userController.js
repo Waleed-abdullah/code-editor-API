@@ -1,6 +1,10 @@
 import { Router } from 'express'
+import path from 'path';
+import fse from 'fs-extra'
 import { User } from '../models/userModel.js'
 
+const __dirname = path.resolve();
+const pfp = path.join(__dirname + '/public/')
 const userRouter = Router()
 
 userRouter.post('/createUser', async (req, res) => {
@@ -58,6 +62,16 @@ userRouter.get('/getUsers', async (req, res) => {
 userRouter.get('/getUser', async (req, res) => {
     const userFound = await User.findById({_id: req.query.id})
     return res.status(200).json({userFound})
+})
+
+userRouter.post('/clone', async (req, res) => {
+    const fromUserPath = pfp + req.body.fromUserID + '/projects/' + req.body.fromUserProjectName
+    const toUserPath = pfp + req.body.toUserID + '/projects/' + req.body.toUserProjectName
+
+    fse.copy(fromUserPath, toUserPath, err => {
+        if (err) throw err
+        return res.status(200).json('Project cloned')
+    })
 })
 
 
