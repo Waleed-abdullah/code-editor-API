@@ -55,7 +55,7 @@ userRouter.post('/createProject', async (req, res) => {
 
 userRouter.get('/getUsers', async (req, res) => {
     let usersFound = await User.find({})
-    usersFound = usersFound.filter(user => user.name.includes(req.query.query))
+    usersFound = usersFound.filter(user => user.name.toLowerCase().includes(req.query.query.toLowerCase()))
     return res.status(200).json({usersFound})
 })
 
