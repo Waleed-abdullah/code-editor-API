@@ -20,6 +20,7 @@
   "homepage": "https://github.com/Waleed-abdullah/code-editor-API#readme",
   "dependencies": {
     "axios": "^0.27.2",
+    "compressing": "^1.5.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
@@ -28,7 +29,8 @@
     "glot.io": "^1.28.2",
     "mongoose": "^6.3.2",
     "mongoose-unique-validator": "^3.0.0",
-    "multer": "^1.4.4"
+    "multer": "^1.4.4",
+    "octokit": "^1.7.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
