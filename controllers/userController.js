@@ -2,6 +2,8 @@ import { Router } from 'express'
 import path from 'path';
 import fse from 'fs-extra'
 import { User } from '../models/userModel.js'
+import axios from 'axios'
+import fs from 'fs'
 
 const __dirname = path.resolve();
 const pfp = path.join(__dirname + '/public/')
@@ -72,6 +74,22 @@ userRouter.post('/clone', async (req, res) => {
         if (err) throw err
         return res.status(200).json('Project cloned')
     })
+})
+
+userRouter.post('/download', (req, res) => {
+    axios({
+        url: req.body.photoURL,
+        responseType: 'stream',
+      }).then(
+        response =>
+          new Promise((resolve, reject) => {
+            response.data
+              .pipe(fs.createWriteStream(`${pfp}${req.body.id}/${req.body.name}.png`))
+              .on('finish', () => resolve())
+              .on('error', e => reject(e));
+          }),
+      );
+    return res.status(200).json('Downloaded')
 })
 
 
